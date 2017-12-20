@@ -37,14 +37,7 @@ export default class LoginForm  extends Component {
         Meteor.call('user.check',email,password,(err,res)=>{
           if (res) {
            AsyncStorage.setItem('user_id',res._id);
-              Meteor.call('shop.check',res._id,function (error,result){
-                if (result) {
-                  AsyncStorage.setItem('shop_id',result._id);
-                  props.navigation.navigate('Admin');
-                }else {
-                  props.navigation.navigate('Login');
-                }
-              });
+           this.props.navigation.navigate('HomeScreen')
           }else {
             ToastAndroid.show('Wrong Email and Password', ToastAndroid.SHORT);
           }
@@ -63,7 +56,7 @@ export default class LoginForm  extends Component {
       <View >
 
       <View style={{shadowOffset:{  width: 10,  height: 10,  },shadowColor: 'black',shadowOpacity: 1.0,justifyContent:'center',alignItems:'center',margin:5}}>
-      <Text style={{color:'black',fontSize:15}}>To Register Your Shop You need to Signup and then Login</Text>
+      <Text style={{color:'black',fontSize:15}}>Login</Text>
       </View>
 
       <View style={{shadowOffset:{  width: 10,  height: 10,  },shadowColor: 'black',shadowOpacity: 1.0,justifyContent:'center',alignItems:'center',margin:5}}>

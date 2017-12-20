@@ -1,21 +1,41 @@
 import React, { Component } from 'react';
-import {TouchableWithoutFeedback} from 'react-native';
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text,Card ,CardItem,Thumbnail,Image,Fab} from 'native-base';
+import {TouchableWithoutFeedback ,View} from 'react-native';
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text,Card ,CardItem,Thumbnail,Image,Fab, Item ,Input} from 'native-base';
+import HomeScreen1 from './HomeScreen1'
+import SearchScreen from './SearchScreen'
+import NotificationScreen from './NotificationScreen'
+import CreateScreen from './CreateScreen'
+import Meteor, { createContainer } from 'react-native-meteor';
 
-export default class HomeScreen extends Component {
+ class HomeScreen extends Component {
   constructor() {
     super();
    this.state = {
-     active: true
+     active: true,
+     screenstate: 1,
    };
  }
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <Container>
+      <Container >
         <Header>
           <Body>
-            <Title>Scribbled Poems</Title>
+          {
+            this.state.screenstate == 1 ? <Title style={{ fontFamily: 'sans-serif-light'}}>Scribbled Poems</Title>
+            :
+            this.state.screenstate == 2 ?
+            <Item >
+             <Input placeholder='Search...' placeholderTextColor="#fff"/>
+             <Icon name='search' style={{color:'white'}} />
+            </Item>
+                      :
+            this.state.screenstate == 3 ? <Title style={{ fontFamily: 'sans-serif-light'}}>Scribbled Poems</Title>
+            :
+            this.state.screenstate == 4 ? <Title style={{ fontFamily: 'sans-serif-light'}}>Scribbled Poems</Title>
+            :
+            null
+          }
           </Body>
           <Right>
           <Button transparent onPress={()=>{navigate('ProfileScreen')}}>
@@ -26,119 +46,59 @@ export default class HomeScreen extends Component {
 
 
         <Content>
+        {
+          this.props.todosReady ? <Text  >Wait</Text>
+          :
+          <View>
 
-        <Card>
-           <CardItem>
-             <Left>
-             <TouchableWithoutFeedback onPress={()=>{navigate('ProfileScreen')}}>
-             <Thumbnail source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoQfKtOZZEJvtq09OJtMiBGwIDdpkHySN7UEZp90yr2mW3OmNe'}}/>
-             </TouchableWithoutFeedback>
-               <Body>
-                 <Text onPress={()=>{navigate('ProfileScreen')}}>NativeBase</Text>
-                 <Text note>GeekyAnts</Text>
-               </Body>
-             </Left>
-           </CardItem>
-           <CardItem>
-           <Body>
-             <Text>
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-             </Text>
-           </Body>
-         </CardItem>
-         <CardItem>
-           <Left>
-             <Button transparent>
-               <Icon active name="thumbs-up" />
-               <Text>12 Likes</Text>
-             </Button>
-           </Left>
-           <Body>
-             <Button transparent onPress={()=>{navigate('CommentScreen')}}>
-               <Icon active name="chatbubbles" />
-               <Text>Comments</Text>
-             </Button>
-           </Body>
-           <Right>
-             <Text>11h ago</Text>
-           </Right>
-         </CardItem>
-         </Card>
-
-
-        <Card>
-           <CardItem>
-             <Left>
-             <TouchableWithoutFeedback onPress={()=>{navigate('ProfileScreen')}}>
-             <Thumbnail source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoQfKtOZZEJvtq09OJtMiBGwIDdpkHySN7UEZp90yr2mW3OmNe'}}/>
-             </TouchableWithoutFeedback>
-               <Body>
-                 <Text onPress={()=>{navigate('ProfileScreen')}}>NativeBase</Text>
-                 <Text note>GeekyAnts</Text>
-               </Body>
-             </Left>
-           </CardItem>
-           <CardItem>
-           <Body>
-             <Text>
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-              i am wiritng this with from core of my heart
-             </Text>
-           </Body>
-         </CardItem>
-         <CardItem>
-           <Left>
-             <Button transparent>
-               <Icon active name="thumbs-up" />
-               <Text>12 Likes</Text>
-             </Button>
-           </Left>
-           <Body>
-             <Button transparent onPress={()=>{navigate('CommentScreen')}}>
-               <Icon active name="chatbubbles" />
-               <Text>Comments</Text>
-             </Button>
-           </Body>
-           <Right>
-             <Text>11h ago</Text>
-           </Right>
-         </CardItem>
-         </Card>
-
-
-
+        {
+          this.state.screenstate == 1 ? <HomeScreen1 posts={this.props.posts} navigation={this.props.navigation}/>
+           :
+           this.state.screenstate == 2 ? <SearchScreen posts={this.props.posts} navigation={this.props.navigation} />
+           :
+           this.state.screenstate == 3 ? <NotificationScreen navigation={this.props.navigation} />
+           :
+           this.state.screenstate == 4 ? <CreateScreen navigation={this.props.navigation} />
+           :
+           null
+        }
+        </View>
+      }
         </Content>
 
-        <Fab
-         active={this.state.active}
-         direction="up"
-         containerStyle={{ }}
-         style={{ backgroundColor: '#5067FF' }}
-         position="bottomRight"
-         onPress={() =>{navigate('WriteScreen')}}>
-         <Icon active name="create" />
-         </Fab>
 
+         <Footer>
+          <FooterTab>
+            <Button vertical active={this.state.screenstate == 1 ? true : false} onPress={()=>{this.setState({screenstate:1})}}>
+              <Icon name="home" />
+              <Text style={{ fontFamily: 'sans-serif-light',fontSize:10}}>Home</Text>
+            </Button>
+
+            <Button vertical active={this.state.screenstate == 2 ? true : false} onPress={()=>{this.setState({screenstate:2})}}>
+              <Icon name="search" />
+              <Text style={{ fontFamily: 'sans-serif-light',fontSize:10}}>Search</Text>
+            </Button>
+
+            <Button vertical active={this.state.screenstate == 3 ? true : false} onPress={()=>{this.setState({screenstate:3})}}>
+              <Icon active name="notifications" />
+              <Text style={{ fontFamily: 'sans-serif-light',fontSize:10}}>Bell</Text>
+            </Button>
+
+            <Button vertical active={this.state.screenstate == 4 ? true : false} onPress={()=>{navigate('CreateScreen')}}>
+              <Icon name="create" />
+              <Text style={{ fontFamily: 'sans-serif-light',fontSize:10}}>Create</Text>
+            </Button>
+
+          </FooterTab>
+        </Footer>
       </Container>
     );
   }
 }
+export default createContainer(params=>{
+  const handle = Meteor.subscribe('allposts');
+  return {
+    todosReady: !handle.ready(),
+    posts: Meteor.collection('posts').find(),
+  };
+}, HomeScreen)

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet,Text,View,Button,ScrollView,AsyncStorage} from 'react-native';
+import {StyleSheet,Text,View,Button,ScrollView,AsyncStorage ,BackHandler} from 'react-native';
 import RegisterationForm from '../components/RegisterationForm';
 import LoginForm from '../components/LoginForm';
 import { Container, Header, Content} from 'native-base';
@@ -12,20 +12,8 @@ export default class LoginScreen extends Component {
       user_id:'',
     }
   }
-  componentWillMount(){
-  AsyncStorage.getItem('user_id', (err, result) => {
-    if (result) {
-      this.setState({user_id:result})
-    }
-  })
-}
-handleLogout(){
-  AsyncStorage.clear((error)=>{
-    console.log(error);
-    this.setState({user_id:null})
-  });
-}
-
+  componentWillMount() {
+  }
 handleform(){
   if (this.state.text === 'Login?' ) {
     this.setState({condition:!this.state.condition,text:'Registeration?'})
@@ -43,8 +31,8 @@ handleform(){
         :
         <RegisterationForm navigation={this.props.navigation}/>
       }
-          <View style={{justifyContent:'center',alignItems:'center',marginTop:10,padding:20}}>
-          <Text style={{color:'blue'}} onPress={this.handleform.bind(this)}>{this.state.condition ? this.state.text : this.state.text }</Text>
+          <View style={{justifyContent:'center',alignItems:'center'}}>
+          <Text style={{color:'blue',marginTop:10,padding:20,fontSize:15}} onPress={this.handleform.bind(this)}>{this.state.condition ? this.state.text : this.state.text }</Text>
           </View>
         </ScrollView>
     );
